@@ -24,7 +24,7 @@ export default () => {
 				secure: true,
 				sameSite: "Strict",
 			});
-			return res.status(403).json({
+			return res.status(401).json({
 				error: {
 					message: "Invalid or expired token",
 				},

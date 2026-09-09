@@ -43,7 +43,7 @@ function buildBody(data?: Record<string, any>): string | undefined {
 async function processResponse(response: Response, reload = true) {
 	const payload = await response.json();
 	if (!response.ok) {
-		if (response.status === 401 || response.status === 403) {
+		if (response.status === 401) {
 			// Force logout user and reload the page if Unauthorized
 			AuthStore.clear();
 			queryClient.clear();

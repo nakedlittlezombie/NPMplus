@@ -55,9 +55,10 @@ app.use("/", mainRoutes);
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res, _) => {
+	const status = err.status === 403 && !req.signedCookies?.["__Host-Http-token"] ? 401 : err.status || 500;
 	const payload = {
 		error: {
-			code: err.status || 500,
+			code: status,
 			message: err.public ? err.message : "Internal Error",
 		},
 	};
@@ -81,7 +82,7 @@ app.use((err, req, res, _) => {
 		}
 	}
 
-	res.status(err.status || 500).send(payload);
+	res.status(status).send(payload);
 });
 
 export default app;
