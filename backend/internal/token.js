@@ -143,7 +143,7 @@ export default {
 	 * @param {Access} access
 	 * @returns {Promise}
 	 */
-	getFreshToken: async (access) => {
+	getFreshToken: async (access, afterRevoke) => {
 		const Token = TokenModel();
 
 		if (access?.token.getUserId(0) && access.token.hasScope("user")) {
@@ -154,6 +154,7 @@ export default {
 					id: access.token.getUserId(0),
 				},
 				expiresIn: "1h",
+				iat: Math.floor(Date.now() / 1000) + (afterRevoke ? 1 : 0),
 			});
 
 			return {

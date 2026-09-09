@@ -479,6 +479,11 @@ const internalUser = {
 			});
 		}
 
+		await userModel
+			.query()
+			.where("id", user.id)
+			.patch({ npmplus_token_valid_after: Math.floor(Date.now() / 1000) });
+
 		await internalAuditLog.add(access, {
 			action: "updated",
 			object_type: "user",

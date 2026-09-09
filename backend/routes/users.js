@@ -2,6 +2,7 @@ import express from "express";
 import { rateLimit } from "express-rate-limit";
 import multer from "multer";
 import internalMfa from "../internal/mfa.js";
+import internalToken from "../internal/token.js";
 import internalTotp from "../internal/totp.js";
 import internalUser from "../internal/user.js";
 import Access from "../lib/access.js";
@@ -220,6 +221,16 @@ router
 			const payload = apiValidator(getValidationSchema("/users/{userID}/auth", "put"), req.body);
 			payload.id = req.params.user_id;
 			const result = await internalUser.setPassword(res.locals.access, payload);
+			if (Number(req.params.user_id) === res.locals.access.token.getUserId(0)) {
+				const data = await internalToken.getFreshToken(res.locals.access, true);
+				res.cookie("__Host-Http-token", data.token, {
+					signed: true,
+					httpOnly: true,
+					secure: true,
+					sameSite: "Strict",
+					expires: new Date(data.expires),
+				});
+			}
 			res.status(200).send(result);
 		} catch (err) {
 			debug(logger, `${req.method.toUpperCase()} ${req.originalUrl}: ${err}`);
@@ -367,6 +378,14 @@ router
 		try {
 			const { code } = apiValidator(getValidationSchema("/users/{userID}/mfa/totp/enable", "post"), req.body);
 			const result = await internalMfa.enableTotp(res.locals.access, req.params.user_id, code);
+			const data = await internalToken.getFreshToken(res.locals.access, true);
+			res.cookie("__Host-Http-token", data.token, {
+				signed: true,
+				httpOnly: true,
+				secure: true,
+				sameSite: "Strict",
+				expires: new Date(data.expires),
+			});
 			res.status(200).send(result);
 		} catch (err) {
 			debug(logger, `${req.method.toUpperCase()} ${req.path}: ${err}`);
@@ -396,6 +415,14 @@ router
 		try {
 			const { code } = apiValidator(getValidationSchema("/users/{userID}/mfa/backup-codes", "post"), req.body);
 			const result = await internalMfa.regenerateBackupCodes(res.locals.access, req.params.user_id, code);
+			const data = await internalToken.getFreshToken(res.locals.access, true);
+			res.cookie("__Host-Http-token", data.token, {
+				signed: true,
+				httpOnly: true,
+				secure: true,
+				sameSite: "Strict",
+				expires: new Date(data.expires),
+			});
 			res.status(200).send(result);
 		} catch (err) {
 			debug(logger, `${req.method.toUpperCase()} ${req.path}: ${err}`);

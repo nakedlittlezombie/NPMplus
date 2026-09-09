@@ -170,6 +170,7 @@
 	"login.totp-description": "Enter the code from your authenticator app",
 	"login.totp-title": "MFA",
 	"login.totp-verify": "Verify",
+	"logout-other-devices": "Doing this logs out all other devices.",
 	"mfa.backup-codes-remaining": "Backup codes remaining: {count}",
 	"mfa.backup-warning": "Save these backup codes in a secure place. Each code can only be used once.",
 	"mfa.regenerate": "Regenerate",
