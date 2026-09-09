@@ -52,9 +52,7 @@ async function processResponse(response: Response, reload = true) {
 				window.location.reload();
 			}
 		}
-		const error = new Error(
-			typeof payload.error.messageI18n !== "undefined" ? payload.error.messageI18n : payload.error.message,
-		);
+		const error = new Error(payload.error.message_i18n ?? payload.error.message);
 		(error as any).payload = payload;
 		throw error;
 	}

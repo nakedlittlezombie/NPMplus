@@ -125,6 +125,7 @@
 	"error.access.at-least-one": "Minstens één authorisatie- of één toegangsregel is vereist",
 	"error.access.duplicate-usernames": "Gebruikersnamen moeten uniek zijn",
 	"error.invalid-auth": "Ongeldig e-mail of wachtwoord",
+	"error.invalid-code": "Ongeldige verificatiecode",
 	"error.invalid-domain": "Ongeldige domeinnaam: {domain}",
 	"error.invalid-email": "Ongeldig e-mailadres",
 	"error.invalid-upstream-url": "Moet een geldige URL zijn met schema, host en poort (geen pad)",

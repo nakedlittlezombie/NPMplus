@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import cookieParser from "cookie-parser";
 import express from "express";
+import errs from "./lib/error.js";
 import { debug, express as logger } from "./logger.js";
 import mainRoutes from "./routes/main.js";
 
@@ -63,21 +64,21 @@ app.use((err, req, res, _) => {
 		},
 	};
 
-	if (typeof err.message_i18n !== "undefined") {
+	if (err.message_i18n) {
 		payload.error.message_i18n = err.message_i18n;
 	}
 
-	if ((req.baseUrl + req.originalUrl).includes("nginx/certificates")) {
+	if (err instanceof errs.CommandError) {
 		payload.debug = {
-			stack: typeof err.stack !== "undefined" && err.stack ? err.stack.split("\n") : null,
+			stack: err.stack?.split("\n") ?? null,
 			previous: err.previous,
 		};
 	}
 
 	// Not every error is worth logging - but this is good for now until it gets annoying.
-	if (typeof err.stack !== "undefined" && err.stack) {
+	if (err.stack) {
 		debug(logger, err.stack);
-		if (typeof err.public === "undefined" || !err.public) {
+		if (!err.public) {
 			logger.warn(`${req.method.toUpperCase()} ${req.originalUrl}: ${err}`);
 		}
 	}
