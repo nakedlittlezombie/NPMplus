@@ -5,8 +5,8 @@ import { rateLimit } from "express-rate-limit";
 import multer from "multer";
 import dnsPlugins from "../../certbot/dns-plugins.json" with { type: "json" };
 import internalCertificate from "../../internal/certificate.js";
-import errs from "../../lib/error.js";
 import jwtdecode from "../../lib/express/jwt-decode.js";
+import requireLogin from "../../lib/express/require-login.js";
 import apiValidator from "../../lib/validator/api.js";
 import validator from "../../lib/validator/index.js";
 import { debug, express as logger } from "../../logger.js";
@@ -110,7 +110,7 @@ router
  */
 router
 	.route("/dns-providers")
-	.all(jwtdecode())
+	.all(requireLogin())
 
 	/**
 	 * GET /api/nginx/certificates/dns-providers
@@ -118,9 +118,6 @@ router
 	 * Get list of all supported DNS providers
 	 */
 	.get((_, res) => {
-		if (!res.locals.access.token.getUserId()) {
-			throw new errs.PermissionError("Login required");
-		}
 		const clean = Object.keys(dnsPlugins).map((key) => ({
 			id: key,
 			name: dnsPlugins[key].name,

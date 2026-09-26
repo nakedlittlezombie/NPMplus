@@ -221,9 +221,7 @@ const internalUser = {
 	get: async (access, data) => {
 		const thisData = data || {};
 
-		if (typeof thisData.id === "undefined" || !thisData.id) {
-			thisData.id = access.token.getUserId(0);
-		}
+		thisData.id ||= access.token.getUserId(0);
 
 		access.canUser(thisData.id);
 

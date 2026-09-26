@@ -20,9 +20,7 @@ class AccessList extends Model {
 		this.modified_on = now();
 
 		// Default for meta
-		if (typeof this.meta === "undefined") {
-			this.meta = {};
-		}
+		this.meta ??= {};
 	}
 
 	$beforeUpdate() {

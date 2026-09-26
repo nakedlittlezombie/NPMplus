@@ -21,19 +21,14 @@ class Certificate extends Model {
 		this.modified_on = now();
 
 		// Default for expires_on
-		if (typeof this.expires_on === "undefined") {
-			this.expires_on = now();
-		}
+		this.expires_on ??= now();
 
 		// Default for domain_names
-		if (typeof this.domain_names === "undefined") {
-			this.domain_names = [];
-		}
+		this.domain_names ??= [];
 
 		// Default for meta
-		if (typeof this.meta === "undefined") {
-			this.meta = {};
-		}
+		this.meta ??= {};
+		this.npmplus_dns_provider_credentials ??= "";
 	}
 
 	$beforeUpdate() {

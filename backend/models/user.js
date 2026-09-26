@@ -17,9 +17,7 @@ class User extends Model {
 		this.modified_on = now();
 
 		// Default for roles
-		if (typeof this.roles === "undefined") {
-			this.roles = [];
-		}
+		this.roles ??= [];
 	}
 
 	$beforeUpdate() {

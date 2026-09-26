@@ -26,14 +26,12 @@ class DeadHost extends Model {
 		this.modified_on = now();
 
 		// Default for domain_names
-		if (typeof this.domain_names === "undefined") {
-			this.domain_names = [];
-		}
+		this.domain_names ??= [];
 
 		// Default for meta
-		if (typeof this.meta === "undefined") {
-			this.meta = {};
-		}
+		this.meta ??= {};
+		this.advanced_config ??= "";
+		this.npmplus_nginx_err ??= "";
 	}
 
 	$beforeUpdate() {

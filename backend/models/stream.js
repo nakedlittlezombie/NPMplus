@@ -25,9 +25,9 @@ class Stream extends Model {
 		this.modified_on = now();
 
 		// Default for meta
-		if (typeof this.meta === "undefined") {
-			this.meta = {};
-		}
+		this.meta ??= {};
+		this.npmplus_advanced_config ??= "";
+		this.npmplus_nginx_err ??= "";
 	}
 
 	$beforeUpdate() {

@@ -33,24 +33,20 @@ class ProxyHost extends Model {
 		this.modified_on = now();
 
 		// Default for domain_names
-		if (typeof this.domain_names === "undefined") {
-			this.domain_names = [];
-		}
+		this.domain_names ??= [];
 
 		// Default for meta
-		if (typeof this.meta === "undefined") {
-			this.meta = {};
-		}
+		this.meta ??= {};
+		this.advanced_config ??= "";
+		this.npmplus_location_config ??= "";
+		this.npmplus_nginx_err ??= "";
+		this.locations ??= [];
 
 		// Default for access list type
-		if (typeof this.npmplus_access_list_type === "undefined") {
-			this.npmplus_access_list_type = "public";
-		}
+		this.npmplus_access_list_type ??= "public";
 
 		// Default for access list ids
-		if (typeof this.npmplus_access_list_ids === "undefined") {
-			this.npmplus_access_list_ids = [];
-		}
+		this.npmplus_access_list_ids ??= [];
 	}
 
 	$beforeUpdate() {
